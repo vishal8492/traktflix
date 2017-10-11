@@ -55,12 +55,7 @@ export default class ActivityListItem extends React.Component {
           <span><a href={netflixUrl} target='_blank'>Netflix title: {netflixTitle}</a></span>
           <span> / </span>
           <span><a href={traktUrl} target='_blank'>Trakt.tv title: {traktTitle}</a></span>
-          <span className='mdl-list__item-text-body'>
-            Netflix date: {netflix.date.format('MMMM Do YYYY, h:mm:ss a')} / Trakt.tv date: {traktDate}
-            <br />
-            Is this wrong or incomplete? <a className='paste-trakt-url' onClick={this._onShowTraktURLForm.bind(this)}>Paste Trakt.tv URL</a>
-            <TraktURLForm activity={activity} show={this.state.showTraktURLForm} onSubmit={this._onSubmitTraktURL} />
-          </span>
+
         </span>
         <span className='mdl-list__item-secondary-action'>
           <label className='mdl-switch mdl-js-switch mdl-js-ripple-effect' htmlFor={formId}>
