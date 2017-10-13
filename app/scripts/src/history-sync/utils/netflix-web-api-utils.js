@@ -101,8 +101,8 @@ export default class NetflixWebAPIUtils {
       TraktWebAPIUtils.getActivity({ item, date }).then(resolve).catch(resolve);
       // Set up the timeout
       setTimeout(function() {
-        console.log("Timing out requests");
-        resolve('Promise timed out after ' + 30000 + ' ms');
+        console.log("Timing out requests rejecting");
+        resolve();
       }, 30000);
     });
   }

@@ -4,6 +4,7 @@ import NetflixWebAPIUtils from '../utils/netflix-web-api-utils';
 
 export default class ActivityActionCreators {
   static receiveActivities(activities) {
+    console.log("Recieve activities done from netflix");
     ViewingActivityAppDispatcher.dispatch({
       type: ActionTypes.RECEIVE_ACTIVITIES,
       activities: activities.filter((activity) => !!activity)
@@ -11,6 +12,7 @@ export default class ActivityActionCreators {
   }
 
   static receiveActivitiesFailed(status, response) {
+    console.log("Recieve activities done from netflix failed oh oh" +status+response);
     ViewingActivityAppDispatcher.dispatch({
       type: ActionTypes.RECEIVE_ACTIVITIES_FAILED,
       status: status,
