@@ -1,5 +1,4 @@
 import EventEmitter from 'events';
-import Rollbar from '../../rollbar';
 
 import ViewingActivityAppDispatcher from '../dispatcher/viewing-activity-app-dispatcher';
 import ActionTypes from '../constants/activity-constants';
@@ -60,7 +59,7 @@ instance.dispatchToken = ViewingActivityAppDispatcher.register((action) => {
       break;
     case ActionTypes.RECEIVE_ACTIVITIES_FAILED:
       console.log(action);
-      Rollbar.error(action);
+      //Rollbar.error(action);
       _message = action;
       instance.emitChange();
       break;

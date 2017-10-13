@@ -1,14 +1,14 @@
 {
   "production": {
-    "clientId": "{TraktClientId}",
-    "clientSecret": "{TraktClientSecret}",
+    "clientId": "2de4ff69aad1d465a24b393ca0e4c3faac6ae00b69e291daba45cdbde7c958d3",
+    "clientSecret": "79c27b8c6296fca5cadf4aa145000d701e0ea9bc474d374d0010b7c5c9cadb1b",
     "analyticsId": "{GoogleAnalyticsId}",
     "rollbarToken": "{RollbarToken}",
     "tmdbApiKey": "{TheMovieDatabaseApiKey}"
   },
   "development": {
-    "clientId": "{TraktClientId}",
-    "clientSecret": "{TraktClientSecret}",
+    "clientId": "2de4ff69aad1d465a24b393ca0e4c3faac6ae00b69e291daba45cdbde7c958d3",
+    "clientSecret": "79c27b8c6296fca5cadf4aa145000d701e0ea9bc474d374d0010b7c5c9cadb1b",
     "analyticsId": "{GoogleAnalyticsId}",
     "rollbarToken": "{RollbarToken}",
     "tmdbApiKey": "{TheMovieDatabaseApiKey}"

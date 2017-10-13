@@ -3,7 +3,6 @@
 var ItemParser = require('./item-parser.js');
 var Search = require('./search.js');
 var Scrobble = require('./scrobble.js');
-var Rollbar = require('../rollbar.js');
 var ChromeStorage = require('../chrome-storage.js');
 
 function ContentController() {
@@ -115,14 +114,14 @@ ContentController.prototype = {
       ChromeStorage.get(null, function(data) {
         if (!!data.access_token) {
           this.showErrorNotification("We couldn't talk to Trakt.tv servers. We're trying to fix it, please try again later");
-          Rollbar.warning('traktflix: ' + type + ' error', { status: status, response: response, options: options });
+          //Rollbar.warning('traktflix: ' + type + ' error', { status: status, response: response, options: options });
         } else {
           this.showErrorNotification("Looks like you're not logged in. Please open the extension and login with your Trakt.tv account");
         }
       }.bind(this));
     } else {
       this.showErrorNotification("We couldn't talk to Trakt.tv servers. We're trying to fix it, please try again later");
-      Rollbar.warning('traktflix: ' + type + ' error', { status: status, response: response, options: options });
+      //Rollbar.warning('traktflix: ' + type + ' error', { status: status, response: response, options: options });
     }
   },
 

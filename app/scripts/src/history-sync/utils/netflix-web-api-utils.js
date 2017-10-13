@@ -58,42 +58,52 @@ export default class NetflixWebAPIUtils {
   }
 
   static getActivities(page = 0) {
-    NetflixWebAPIUtils.activateAPI()
-      .then(url => NetflixWebAPIUtils.listActivities(url, page));
+    NetflixWebAPIUtils.activateAPI().then
+      ( url =>  NetflixWebAPIUtils.listActivities(url, page))
+
+
   }
 
   static parseActivity(activity) {
     let date = moment(activity.date);
     let item;
     let type = activity.series == undefined ? 'movie' : 'show';
+    console.log("activity"+activity);
+    try {
+      if (type === 'show') {
+        let title = activity.seriesTitle;
+        let splittedTitle = activity.title.split(':');
+        let season = splittedTitle[0].match(/\d+/g);
+        let epTitle;
 
-    if (type === 'show') {
-      let title = activity.seriesTitle;
-      let splittedTitle = activity.title.split(':');
-      let season = splittedTitle[0].match(/\d+/g);
-      let epTitle;
+        if (season) {
+          season = parseInt(season[0]);
+        }
 
-      if (season) {
-        season = parseInt(season[0]);
+        if (splittedTitle[1]) {
+          epTitle = splittedTitle[1].trim().replace('"', '').replace('"', '');
+        }
+
+        item = new Item({
+          epTitle: epTitle,
+          title: title,
+          season: season,
+          type: type
+        });
+      } else {
+        item = new Item({title: activity.title, type: type});
       }
-
-      if (splittedTitle[1]) {
-        epTitle = splittedTitle[1].trim().replace('"', '').replace('"', '');
-      }
-
-      item = new Item({
-        epTitle: epTitle,
-        title: title,
-        season: season,
-        type: type
-      });
-    } else {
-      item = new Item({ title: activity.title, type: type });
+    }catch (err){
+      console.log("Errors while parsing"+err);
     }
-
     return new Promise((resolve, reject) => {
       let netflix = Object.assign(item, { id: activity.movieID });
       TraktWebAPIUtils.getActivity({ item, date }).then(resolve).catch(resolve);
+      // Set up the timeout
+      setTimeout(function() {
+        console.log("Timing out requests");
+        resolve('Promise timed out after ' + 30000 + ' ms');
+      }, 30000);
     });
   }
 }
