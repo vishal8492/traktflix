@@ -16,7 +16,9 @@ function ContentController() {
 
 ContentController.prototype = {
   onSearchSuccess: function(response) {
+    console.log("Sending Analytic event");
     this.sendAnalyticsEvent({ name: 'onSearchSuccess', value: this.item.title });
+    console.log("Initializing scrobble function");
 
     this.scrobble = new Scrobble({
       response: response,
@@ -61,10 +63,13 @@ ContentController.prototype = {
   },
 
   onPlay: function(e) {
+    console.log("Playing event captured"+this.item+"scrobble function"+this.scrobble);
+
     if (this.item === null && this.scrobble === undefined) {
       ItemParser.start(this.storeItem.bind(this));
     } else {
       this.setActiveIcon();
+      console.log("Sending scrobble start event");
       this.scrobble.start();
       this.sendAnalyticsEvent({ name: 'Scrobble', value: 'start' });
     }
