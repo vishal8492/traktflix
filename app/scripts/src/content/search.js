@@ -11,7 +11,16 @@ function Search(options) {
 
 Search.prototype = {
   getUrl: function() {
-    return this.url + '/' + this.item.type + '?query=' + encodeURIComponent(this.item.title);
+    //check if title contains year
+    var title=this.item.title;
+    var query= '?query=' + encodeURIComponent(title);
+    var year=/\([0-9]{4}\)$/.test(this.item.title);
+    if(year){
+      var years=this.item.title.slice(this.item.title.length,this.item.title.length-4);
+      title = title.substr(this.item.title.length,this.item.title.length-5);
+      query='?query=' + encodeURIComponent(title) +'&years='+years
+    }
+    return this.url + '/' + this.item.type +query;
   },
 
   getEpisodeUrl: function(slug) {
