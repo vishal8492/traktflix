@@ -25,7 +25,7 @@ Scrobble.prototype = {
       this.onProgressChange();
       clearTimeout(this.progressChangeInterval);
       this.startProgressTimeout();
-    }.bind(this), 1000);
+    }.bind(this), 3000);
   },
 
   stopProgressTimeout: function() {
@@ -37,25 +37,9 @@ Scrobble.prototype = {
   },
 
   webScrubber: function() {
-    var scrubber = document.querySelector('.scrubber-bar .current-progress');
-    if (!this.basePercentage || !this.baseTime) {
-      if (scrubber) {
-        this.basePercentage = 100 - parseFloat(scrubber.style.width);
-      }
-      this.baseTime = this.getRemainingTime();
-    }
-    if (scrubber) {
-      var currentPercentage = 100 - parseFloat(scrubber.style.width);
-      if (currentPercentage != this.basePercentage) {
-        this.basePercentage = currentPercentage;
-        this.baseTime = this.getRemainingTime();
-      }
-
-      var newProgress = 100 - ((this.basePercentage * this.getRemainingTime()) / this.baseTime);
-      if (newProgress > 0) {
-        this.progress = newProgress;
-      }
-    }
+    var scrubber = document.querySelector('.player-scrubber-progress-completed');
+    this.progress = parseFloat(scrubber.style.width);
+    console.log("progress scrobble",this.progress);
   },
 
   getRemainingTime: function() {

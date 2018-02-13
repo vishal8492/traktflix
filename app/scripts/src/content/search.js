@@ -7,6 +7,7 @@ function Search(options) {
   this.item = options.item;
   this.url = Settings.apiUri + '/search';
   this.showsUrl = Settings.apiUri + '/shows';
+  this.episodeRaw = Settings.apiUri + '/search/episode?query='
 };
 
 Search.prototype = {
@@ -27,9 +28,11 @@ Search.prototype = {
     if (this.item.episode) {
       return this.showsUrl + '/' + slug + '/seasons/' + this.item.season
         + '/episodes/' + this.item.episode + '?extended=images';
-    } else {
+    } else if(this.item.epTitle){
+      return this.episodeRaw + encodeURIComponent(this.item.epTitle);
+    }else{
       return this.showsUrl + '/' + slug + '/seasons/' + this.item.season
-        + '?extended=images';
+          + '?extended=images';
     }
   },
 
@@ -38,7 +41,10 @@ Search.prototype = {
       method: 'GET',
       url: this.getUrl(),
       success: function(response) {
+        console.log("response",response);
         var data = JSON.parse(response)[0];
+        console.log("data",data);
+
         if (data == undefined) {
           options.error.call(this, 404);
         } else {
@@ -76,9 +82,15 @@ Search.prototype = {
           method: 'GET',
           url: this.getEpisodeUrl(response['show']['ids']['slug']),
           success: function(resp) {
+            console.log("find episode response",resp);
             if (this.item.episode) {
               options.success.call(this, Object.assign(JSON.parse(resp), response));
-            } else {
+            } else if (this.item.epTitle){
+              var episodes = JSON.parse(resp);
+              console.log("parsed obj",episodes);
+              var ep = episodes[0].episode;
+              options.success.call(this, Object.assign(ep, response));
+            }else{
               this.findEpisodeByTitle(response, resp, options);
             }
           }.bind(this),
@@ -95,8 +107,10 @@ Search.prototype = {
 
   find: function(options) {
     if (this.item.type == 'show') {
+      console.log("Searching episode");
       this.findEpisode(options);
     } else {
+      console.log("Searching item");
       this.findItem(options);
     }
   }
